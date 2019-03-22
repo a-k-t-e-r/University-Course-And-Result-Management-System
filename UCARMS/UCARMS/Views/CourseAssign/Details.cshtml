@@ -1,0 +1,75 @@
+﻿@model UCARMS.Models.CourseAssign
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CourseAssign</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Course.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Teacher.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teacher.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditTaken)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditTaken)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditRemain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditRemain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseCredit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseCredit)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,66 @@
+﻿@using UCARMS.Models
+@model Department
+
+@{
+    ViewBag.Title = "View Course Statics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string startValue = "< S E L E C T >";
+}
+
+<br /><br /><br /><br /><br /><br />
+<h2>View Course Statics</h2>
+<hr />
+<div class="dropdown text-center">
+    <label>DEPARTMENT - </label>
+    <select id="departmentsDropDown">
+        <option value="0">@startValue</option>
+        @foreach (Department department in ViewBag.vcsDepartments)
+        {
+            <option value="@department.Id">@department.Name</option>
+        }
+    </select>
+</div>
+<hr />
+<div>
+    <table id="vcsTable" class="table table-bordered text-center"></table>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#departmentsDropDown').change(function () {
+            $('#vcsTable').empty();
+            $('#vcsTable').addClass("table table-bordered");
+            $('#vcsTable').append('<thead class="text-danger"><tr><th>Code</th><th>Name</th><th>Semester</th><th>Assign To</th></tr></thead>');
+
+            var departmentValue = $('#departmentsDropDown').val();
+            var semesterIdValue, row;
+
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/course/GetCourseDetails',
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        if (departmentValue == value.Id) {
+                            row = '<tbody><tr><td>' + value.Code + '</td><td>' + value.Name + '</td>';
+                            semesterIdValue = value.SemesterId;
+
+                            $.ajax({
+                                url: '/course/GetSemesterDetails',
+                                success: function (data) {
+                                    $.each(data, function (key, value) {
+                                        if (semesterIdValue == value.Id) {
+                                            row += '<td>' + value.Name + '</td></tr></tbody>';
+                                            $('#vcsTable').append(row);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

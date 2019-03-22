@@ -1,0 +1,75 @@
+﻿@model UCARMS.Models.StudentRegistration
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StudentRegistration</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StuRegNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StuRegNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StuName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StuName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

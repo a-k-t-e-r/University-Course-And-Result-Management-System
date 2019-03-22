@@ -1,0 +1,134 @@
+﻿@model UCARMS.Models.StudentEnroll
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Student Enroll</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Id, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Id)
+                @Html.ValidationMessageFor(model => model.Id)
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentRegistrationNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentRegistrationNo)
+                @Html.ValidationMessageFor(model => model.StudentRegistrationNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentName)
+                @Html.ValidationMessageFor(model => model.StudentName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Department, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Department)
+                @Html.ValidationMessageFor(model => model.Department)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "CourseId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CourseId", String.Empty)
+                @Html.ValidationMessageFor(model => model.CourseId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date)
+                @Html.ValidationMessageFor(model => model.Date)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $(function () {
+                $('#Date').datepicker();
+            });
+        });
+
+        $("#StudentRegistrationNo").keyup(function () {
+            var id = $(this).val();
+
+            $.ajax({
+                url: '/StudentEnroll/GetStudentRegistrationDetails',
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    // Clear before appending new list
+                    $("#StudentName").val("");
+                    $("#Email").val("");
+                    $("#Department").val("");
+                    $.each(data, function (key, wholeList) {
+                        if (wholeList.StuRegNo == id) {
+                            //console.log(wholeList);
+                            $("#StudentName").val(wholeList.StuName);
+                            $("#Email").val(wholeList.Email);
+
+                            $.ajax({
+                                url: '/StudentEnroll/GetDepartmentName/' + wholeList.DepartmentId,
+                                type: "POST",
+                                dataType: "JSON",
+                                success: function (data) {
+                                    $("#Department").val(data);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

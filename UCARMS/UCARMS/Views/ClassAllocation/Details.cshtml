@@ -1,0 +1,67 @@
+﻿@model UCARMS.Models.ClassAllocation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ClassAllocation</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassRoom.RoomNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassRoom.RoomNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Course.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Day.DayName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Day.DayName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

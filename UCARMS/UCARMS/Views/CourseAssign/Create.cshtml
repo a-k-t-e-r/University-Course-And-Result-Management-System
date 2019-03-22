@@ -1,0 +1,132 @@
+﻿@model UCARMS.Models.CourseAssign
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>CourseAssign</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", String.Empty)
+                @Html.ValidationMessageFor(model => model.DepartmentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "TeacherId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TeacherId", null, new { OnChange = "WhenTeacherChange(this.value)" })
+                @Html.ValidationMessageFor(model => model.TeacherId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditTaken, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditTaken)
+                @Html.ValidationMessageFor(model => model.CreditTaken)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditRemain, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditRemain)
+                @Html.ValidationMessageFor(model => model.CreditRemain)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "CourseId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CourseId", null, new { OnChange = "WhenCourseIdChange(this.value)" })
+                @Html.ValidationMessageFor(model => model.CourseId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseName)
+                @Html.ValidationMessageFor(model => model.CourseName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCredit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseCredit)
+                @Html.ValidationMessageFor(model => model.CourseCredit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function WhenTeacherChange(val) {
+            $.ajax({
+                url: '/courseassign/GetTeacherDetails',
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    // Clear before appending new list
+                    $("#CreditTaken").val("");
+                    $("#CreditRemain").val("");
+                    $.each(data, function (key, wholeList) {
+                        if (wholeList.Id == val) {
+                            console.log(wholeList);
+                            $("#CreditTaken").val(wholeList.Credit);
+                            $("#CreditRemain").val("0.0");
+                        }
+                    });
+                }
+            });
+        }
+
+        function WhenCourseIdChange(val) {
+            $.ajax({
+                url: '/courseassign/GetCourseDetails',
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    // Clear before appending new list
+                    $("#CourseName").val("");
+                    $("#CourseCredit").val("");
+                    $.each(data, function (key, wholeList) {
+                        if (wholeList.Id == val) {
+                            console.log(wholeList);
+                            $("#CourseName").val(wholeList.Name);
+                            $("#CourseCredit").val(wholeList.Credit);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

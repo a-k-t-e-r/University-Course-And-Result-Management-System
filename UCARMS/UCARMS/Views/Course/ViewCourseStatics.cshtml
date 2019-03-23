@@ -34,7 +34,7 @@
             $('#vcsTable').append('<thead class="text-danger"><tr><th>Code</th><th>Name</th><th>Semester</th><th>Assign To</th></tr></thead>');
 
             var departmentValue = $('#departmentsDropDown').val();
-            var semesterIdValue, row;
+            var semesterIdValue, courseIdValue, courseAssignTeacherIdValue, row;
 
             $.ajax({
                 type: "POST",
@@ -45,14 +45,37 @@
                         if (departmentValue == value.Id) {
                             row = '<tbody><tr><td>' + value.Code + '</td><td>' + value.Name + '</td>';
                             semesterIdValue = value.SemesterId;
+                            courseIdValue = value.Id;
 
                             $.ajax({
                                 url: '/course/GetSemesterDetails',
                                 success: function (data) {
                                     $.each(data, function (key, value) {
                                         if (semesterIdValue == value.Id) {
-                                            row += '<td>' + value.Name + '</td></tr></tbody>';
-                                            $('#vcsTable').append(row);
+                                            row += '<td>' + value.Name + '</td>';
+                                        }
+                                    });
+                                }
+                            });
+
+                            $.ajax({
+                                url: '/course/GetCourseAssignDetails',
+                                success: function (data) {
+                                    $.each(data, function (key, value) {
+                                        if (courseIdValue == value.Id) {
+                                            courseAssignTeacherIdValue = value.TeacherId;
+
+                                            $.ajax({
+                                                url: '/course/GetTeacherDetails',
+                                                success: function (data) {
+                                                    $.each(data, function (key, value) {
+                                                        if (courseAssignTeacherIdValue == value.Id) {
+                                                            row += '<td>' + value.Name + '</td></tr></tbody>';
+                                                            $('#vcsTable').append(row);
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
                                     });
                                 }

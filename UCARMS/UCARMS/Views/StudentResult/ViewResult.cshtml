@@ -1,0 +1,100 @@
+﻿@model List<UCARMS.Models.StudentRegistration>
+
+@{
+    ViewBag.Title = "ViewResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string startValue = "< S E L E C T >";
+}
+
+<br /><br /><br /><br /><br />
+
+<h2>View Result</h2>
+<div>
+    <table class="table">
+        <tr>
+            <th class="text-right"><label>Student Reg No.: </label></th>
+            <td>
+                <select id="registerStudentDropDown" style="width: 175px;">
+                    <option value="0">@startValue</option>
+                    @foreach (var registerStudent in @Model)
+                    {
+                        <option value="@registerStudent.Id">@registerStudent.StuRegNo</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-right"><label>Name: </label></th>
+            <td><input type="text" id="nameText" style="text-align: center;" readonly/></td>
+        </tr>
+        <tr>
+            <th class="text-right"><label>Email: </label></th>
+            <td><input type="text" id="emailText" style="text-align: center;" readonly/></td>
+        </tr>
+        <tr>
+            <th class="text-right"><label>Department: </label></th>
+            <td><input type="text" id="departmentText" style="text-align: center;" readonly/></td>
+        </tr>
+    </table>
+    <div class="text-danger">
+        <input type="button" id="vrPdfButton" value="Make PDF" style="width: 100px; margin-left: 541px; font-weight: bold;"/>
+    </div>
+</div>
+
+<div>
+    <table id="vrTable" class="table table-bordered">
+        
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $('#registerStudentDropDown').change(function foo() {
+        $('#nameText').val("");
+        $('#emailText').val("");
+        $('#departmentText').val("");
+
+        var registerStudentDropDownText = $('#registerStudentDropDown option:selected').html();
+        var gradeId, courseId;
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '/studentresult/GetStudentResults',
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    if (registerStudentDropDownText == value.StudentRegistrationNum) {
+                        $('#nameText').val(value.StudentName);
+                        $('#emailText').val(value.Email);
+                        $('#departmentText').val(value.Department);
+
+                        foo.courseId = value.CourseId;
+                        gradeId = value.GradeLetterId;
+                    }
+
+                    $.ajax({
+                        url: '/studentresult/GetCourses',
+                        success: function (data) {
+                            $.each(data, function (key, value) {
+                                if (courseId == value.Id) {
+                                    //alert(value.Code + " - " + value.Name);
+                                }
+                            });
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/studentresult/GetGrades',
+                        success: function (data) {
+                            $.each(data, function (key, value) {
+                                if (gradeId == value.Id) {
+                                    //alert(" - " + value.GradeLetterName);
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>

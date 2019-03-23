@@ -146,6 +146,33 @@ namespace UCARMS.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult ViewResult()
+        {
+            var studentRegisters = db.StudentRegistrations.ToList();
+            return View(studentRegisters);
+        }
+
+        public JsonResult GetStudentResults()
+        {
+            var studentResults = db.StudentResults.ToList();
+
+            return Json(studentResults, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCourses()
+        {
+            var courses = db.CourseDbSet.ToList();
+
+            return Json(courses, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetGrades()
+        {
+            var grades = db.GradeLetters.ToList();
+
+            return Json(grades, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

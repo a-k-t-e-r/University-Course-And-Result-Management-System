@@ -147,9 +147,16 @@ namespace UCARMS.Controllers
 
         public JsonResult GetCourseAssignDetails()
         {
-            var AssignCourses = db.CourseAssignDbSet.ToList();
+            var assignCourses = db.CourseAssignDbSet.ToList();
 
-            return Json(AssignCourses, JsonRequestBehavior.AllowGet);
+            return Json(assignCourses, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetTeacherDetails()
+        {
+            var teachers = db.TeacherDbSet.ToList();
+
+            return Json(teachers, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

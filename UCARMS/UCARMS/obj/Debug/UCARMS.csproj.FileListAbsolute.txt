@@ -167,4 +167,3 @@ G:\UCARMS\UCARMS\obj\Debug\UCARMS.Migrations.Ver2.resources
 G:\UCARMS\UCARMS\obj\Debug\UCARMS.csproj.GenerateResource.Cache
 G:\UCARMS\UCARMS\obj\Debug\UCARMS.dll
 G:\UCARMS\UCARMS\obj\Debug\UCARMS.pdb
-G:\UCARMS\UCARMS\obj\Debug\UCARMS.csprojResolveAssemblyReference.cache

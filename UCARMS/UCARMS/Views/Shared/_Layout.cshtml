@@ -17,21 +17,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("UVARMS", "Index", "Home", null, new { @class = "navbar-brand" })
+                @Html.ActionLink("UNIVERSITY COURSE AND RESULT MANAGEMENT SYSTEM", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                     <li>@Html.ActionLink("Department", "Index", "Department")</li>
                     <li>@Html.ActionLink("Create Course", "Create", "Course")</li>
                     <li>@Html.ActionLink("Save Teacher", "Create", "Teacher")</li>
                     <li>@Html.ActionLink("Course Assign", "Create", "CourseAssign")</li>
+                    <li>@Html.ActionLink("View Course Statics", "ViewCourseStatics", "Course")</li>
                     <li>@Html.ActionLink("Register Student", "Create", "StudentRegistration")</li>
                     <li>@Html.ActionLink("Allocate Classroom", "Create", "ClassAllocation")</li>
                     <li>@Html.ActionLink("Student Enroll", "Create", "StudentEnroll")</li>
                     <li>@Html.ActionLink("Save Student Result", "Create", "StudentResult")</li>
+                    <li>@Html.ActionLink("View Result", "ViewResult", "StudentResult")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @*@Html.Partial("_LoginPartial")*@
             </div>
         </div>
     </div>
@@ -39,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - <b>Akter's</b> ASP.NET Application</p>
         </footer>
     </div>
 

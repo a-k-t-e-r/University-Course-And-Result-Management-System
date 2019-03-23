@@ -387,6 +387,7 @@
     <Content Include="Views\StudentResult\Edit.cshtml" />
     <Content Include="Views\StudentResult\Index.cshtml" />
     <Content Include="Views\Course\ViewCourseStatics.cshtml" />
+    <Content Include="Views\StudentResult\ViewResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

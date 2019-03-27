@@ -7,10 +7,10 @@
 
 <br /><br /><br /><br /><br />
 
-<h2>View All Department</h2>
+<h2 class="text-center">View All Departments</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p class="text-right">
+    <b>@Html.ActionLink("Create New", "Create")</b>
 </p>
 <table class="table">
     <tr>
@@ -32,8 +32,8 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) -/-
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) -/-
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>

@@ -1,4 +1,5 @@
 ﻿@using UCARMS.Models
+
 @model Department
 
 @{
@@ -31,10 +32,10 @@
         $('#departmentsDropDown').change(function () {
             $('#vcsTable').empty();
             $('#vcsTable').addClass("table table-bordered");
-            $('#vcsTable').append('<thead class="text-danger"><tr><th>Code</th><th>Name</th><th>Semester</th><th>Assign To</th></tr></thead>');
+            $('#vcsTable').append('<thead class="text-danger"><tr><th>Code</th><th>Name</th><th>Semester</th><th>Assign To</th></tr></thead><tbody>');
 
-            var departmentValue = $('#departmentsDropDown').val();
-            var semesterIdValue, courseIdValue, courseAssignTeacherIdValue, row;
+            var departmentValue = $('#departmentsDropDown option:selected').val();
+            var semesterIdValue, courseIdValue, courseAssignTeacherIdValue, row = "";
 
             $.ajax({
                 type: "POST",
@@ -42,44 +43,50 @@
                 url: '/course/GetCourseDetails',
                 success: function (data) {
                     $.each(data, function (key, value) {
-                        if (departmentValue == value.Id) {
-                            row = '<tbody><tr><td>' + value.Code + '</td><td>' + value.Name + '</td>';
+                        if (value.DepartmentId == departmentValue) {
+                            row += '<tr><td>' + value.Code + '</td><td>' + value.Name + '</td>';
+
                             semesterIdValue = value.SemesterId;
+                            //alert("1: "+semesterIdValue);
                             courseIdValue = value.Id;
 
                             $.ajax({
                                 url: '/course/GetSemesterDetails',
                                 success: function (data) {
+                                    //alert("2: " + semesterIdValue);
                                     $.each(data, function (key, value) {
                                         if (semesterIdValue == value.Id) {
+                                            //alert("3: " + semesterIdValue);
                                             row += '<td>' + value.Name + '</td>';
                                         }
                                     });
                                 }
                             });
 
-                            $.ajax({
-                                url: '/course/GetCourseAssignDetails',
-                                success: function (data) {
-                                    $.each(data, function (key, value) {
-                                        if (courseIdValue == value.Id) {
-                                            courseAssignTeacherIdValue = value.TeacherId;
+                            console.log(row);
 
-                                            $.ajax({
-                                                url: '/course/GetTeacherDetails',
-                                                success: function (data) {
-                                                    $.each(data, function (key, value) {
-                                                        if (courseAssignTeacherIdValue == value.Id) {
-                                                            row += '<td>' + value.Name + '</td></tr></tbody>';
-                                                            $('#vcsTable').append(row);
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
+                            //$.ajax({
+                            //    url: '/course/GetCourseAssignDetails',
+                            //    success: function (data) {
+                            //        $.each(data, function (key, value) {
+                            //            if (courseIdValue == value.Id) {
+                            //                courseAssignTeacherIdValue = value.TeacherId;
+
+                            //                $.ajax({
+                            //                    url: '/course/GetTeacherDetails',
+                            //                    success: function (data) {
+                            //                        $.each(data, function (key, value) {
+                            //                            if (courseAssignTeacherIdValue == value.Id) {
+                            //                                row += '<td>' + value.Name + '</td></tr></tbody>';
+                            //                                $('#vcsTable').append(row);
+                            //                            }
+                            //                        });
+                            //                    }
+                            //                });
+                            //            }
+                            //        });
+                            //    }
+                            //});
                         }
                     });
                 }

@@ -41,6 +41,8 @@
     </div>
 </div>
 
+<br/>
+
 <div>
     <table id="vrTable" class="table table-bordered">
         
@@ -48,14 +50,20 @@
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jspdf.min.js"></script>
 <script type="text/javascript">
-    $('#registerStudentDropDown').change(function foo() {
+    $('#registerStudentDropDown').change(function () {
+        $('#vrTable').empty();
+        $('#vrTable').addClass("table table-bordered");
+        $('#vrTable').append('<thead class="text-primary"><tr><th>Code</th><th>Name</th><th>Grade</th></tr></thead>');
+
         $('#nameText').val("");
         $('#emailText').val("");
         $('#departmentText').val("");
 
         var registerStudentDropDownText = $('#registerStudentDropDown option:selected').html();
         var gradeId, courseId;
+        var tableRow = "";
 
         $.ajax({
             type: "POST",
@@ -68,33 +76,52 @@
                         $('#emailText').val(value.Email);
                         $('#departmentText').val(value.Department);
 
-                        foo.courseId = value.CourseId;
+                        courseId = value.CourseId;
                         gradeId = value.GradeLetterId;
                     }
+                });
 
-                    $.ajax({
-                        url: '/studentresult/GetCourses',
-                        success: function (data) {
-                            $.each(data, function (key, value) {
-                                if (courseId == value.Id) {
-                                    //alert(value.Code + " - " + value.Name);
-                                }
-                            });
-                        }
-                    });
+                $.ajax({
+                    url: '/studentresult/GetCourses',
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            if (courseId == value.Id) {
+                                tableRow = '<tbody><tr><td>' + value.Code + '</td><td>' + value.Name + '</td>';
 
-                    $.ajax({
-                        url: '/studentresult/GetGrades',
-                        success: function (data) {
-                            $.each(data, function (key, value) {
-                                if (gradeId == value.Id) {
-                                    //alert(" - " + value.GradeLetterName);
-                                }
-                            });
-                        }
-                    });
+                                $.ajax({
+                                    url: '/studentresult/GetGrades',
+                                    success: function (data) {
+                                        $.each(data, function (key, value) {
+                                            if (gradeId == value.Id) {
+                                                tableRow += '<td>' + value.GradeLetterName + '</td></tr></tbody>';
+                                                $('#vrTable').append(tableRow);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
             }
         });
+    });
+
+    $("#vrPdfButton").click(function () {
+        var regNo = $('#registerStudentDropDown option:selected').text();
+        var name = $('#nameText').val();
+        var email = $('#emailText').val();
+        var dept = $('#departmentText').val();
+
+        var doc = new jsPDF();
+        doc.text(70, 20, '*** STUDENT RESULT SHEET ***');
+        doc.text(20, 40, 'Registration No: ' + regNo);
+        doc.text(20, 50, 'Student Name: ' + name);
+        doc.text(20, 60, 'Student Email: ' + email);
+        doc.text(20, 70, 'Department: ' + dept);
+
+        doc.fromHTML($('#vrTable').get(0), 20, 75);
+
+        doc.save('student_result.pdf');
     });
 </script>

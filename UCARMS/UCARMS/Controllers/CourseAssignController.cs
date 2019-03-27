@@ -41,7 +41,7 @@ namespace UCARMS.Controllers
         // GET: /CourseAssign/Create
         public ActionResult Create()
         {
-            ViewBag.CourseId = new SelectList(db.CourseDbSet, "Id", "Name");
+            ViewBag.CourseId = new SelectList(db.CourseDbSet, "Id", "Code");
             ViewBag.DepartmentId = new SelectList(db.DepartmentDbSet, "Id", "Name");
             ViewBag.TeacherId = new SelectList(db.TeacherDbSet, "Id", "Name");
             return View();
@@ -61,7 +61,7 @@ namespace UCARMS.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourseId = new SelectList(db.CourseDbSet, "Id", "Name", courseassign.CourseId);
+            ViewBag.CourseId = new SelectList(db.CourseDbSet, "Id", "Code", courseassign.CourseId);
             ViewBag.DepartmentId = new SelectList(db.DepartmentDbSet, "Id", "Name", courseassign.DepartmentId);
             ViewBag.TeacherId = new SelectList(db.TeacherDbSet, "Id", "Name", courseassign.TeacherId);
             return View(courseassign);

@@ -119,8 +119,8 @@ namespace UCARMS.Migrations
                         Credit = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Department", t => t.DepartmentId, cascadeDelete: true)
-                .ForeignKey("dbo.Designations", t => t.DesignationId, cascadeDelete: true)
+                .ForeignKey("dbo.Department", t => t.DepartmentId, cascadeDelete: false)
+                .ForeignKey("dbo.Designations", t => t.DesignationId, cascadeDelete: false)
                 .Index(t => t.DepartmentId)
                 .Index(t => t.DesignationId);
             

@@ -16,7 +16,7 @@ namespace UCARMS.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Think, You Forgot It")]
-        [Display(Name = "Department")]
+        [Display(Name = "Department: ")]
         public int DepartmentId { get; set; }
 
         [ForeignKey("DepartmentId")]

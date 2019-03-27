@@ -20,15 +20,15 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department: ", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", String.Empty)
+                @Html.DropDownList("DepartmentId", "< SELECT DEPARTMENT >")
                 @Html.ValidationMessageFor(model => model.DepartmentId)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TeacherId, "TeacherId", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TeacherId, "Teacher: ", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("TeacherId", null, new { OnChange = "WhenTeacherChange(this.value)" })
                 @Html.ValidationMessageFor(model => model.TeacherId)
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CreditRemain, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CreditRemain, "Credit Remain: ", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CreditRemain)
                 @Html.ValidationMessageFor(model => model.CreditRemain)
@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "CourseId", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course: ", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CourseId", null, new { OnChange = "WhenCourseIdChange(this.value)" })
                 @Html.ValidationMessageFor(model => model.CourseId)
@@ -91,6 +91,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        var takenCredit
         function WhenTeacherChange(val) {
             $.ajax({
                 url: '/courseassign/GetTeacherDetails',
@@ -102,7 +103,6 @@
                     $("#CreditRemain").val("");
                     $.each(data, function (key, wholeList) {
                         if (wholeList.Id == val) {
-                            console.log(wholeList);
                             $("#CreditTaken").val(wholeList.Credit);
                             $("#CreditRemain").val("0.0");
                         }
